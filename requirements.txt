@@ -1,4 +1,6 @@
 Flask
+waitress
 Pillow
 rembg
-waitress
+onnxruntime
+numpy
