@@ -53,4 +53,5 @@ def remove_background():
         return jsonify({'success': False, 'message': 'File type not allowed'}), 400
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    from waitress import serve
+    serve(app, host='0.0.0.0', port=5000)
