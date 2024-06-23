@@ -21,11 +21,10 @@ def remove_background():
         buffered = io.BytesIO()
         output_image.save(buffered, format="PNG")
         buffered.seek(0)
-        return send_file(buffered, mimetype='image/png', as_attachment=True, attachment_filename='output.png')
+        return send_file(buffered, mimetype='image/png')
     except Exception as e:
         return jsonify({"error": f"Background removal failed: {e}"}), 500
 
 if __name__ == '__main__':
-    # Use Waitress as the server
     from waitress import serve
     serve(app, host='0.0.0.0', port=10000)
