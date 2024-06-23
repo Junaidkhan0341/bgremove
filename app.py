@@ -1,8 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, send_file, jsonify
 from rembg import remove
 from PIL import Image
 import io
-import base64
 
 app = Flask(__name__)
 
@@ -21,10 +20,12 @@ def remove_background():
         output_image = remove(input_image)
         buffered = io.BytesIO()
         output_image.save(buffered, format="PNG")
-        img_str = base64.b64encode(buffered.getvalue()).decode()
-        return jsonify({"image": img_str}), 200
+        buffered.seek(0)
+        return send_file(buffered, mimetype='image/png', as_attachment=True, attachment_filename='output.png')
     except Exception as e:
         return jsonify({"error": f"Background removal failed: {e}"}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Use Waitress as the server
+    from waitress import serve
+    serve(app, host='0.0.0.0', port=10000)
