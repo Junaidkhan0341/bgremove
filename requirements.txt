@@ -22,4 +22,3 @@ moviepy==1.0.3
 Pillow==8.1.1
 ffmpeg-python
 numba==0.47.0
-llvmlite==0.32.1
