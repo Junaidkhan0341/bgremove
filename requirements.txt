@@ -1,5 +1,5 @@
 Flask
-waitress
+gunicorn
 Pillow
 rembg
 onnxruntime
