@@ -1,4 +1,5 @@
 version: "3.6"
+
 services:
   background:
     container_name: remover
@@ -10,14 +11,8 @@ services:
       - ./output:/usr/src/app/output
       - ./models/u2net.pth:/root/.u2net/u2net.pth
       - ./cli.py:/usr/src/app/cli.py
-    command: |
-      sh -c '''
-      cd /usr/src/app && python3 cli.py \
-      -af 10 \
-      -wn 8 \
-      -i "images/20210313_IMG_3816.jpg" \
-      -o "output/test.png"
-      '''
+    command: >
+      sh -c "cd /usr/src/app && python3 cli.py -af 10 -wn 8 -i 'images/20210313_IMG_3816.jpg' -o 'output/test.png'"
     # restart: always
 
 volumes:
