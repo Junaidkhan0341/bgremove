@@ -21,3 +21,5 @@ moviepy>=1.0.3
 Pillow>=8.1.1,<10.0.0
 ffmpeg-python
 backgroundremover==0.1.9
+Flask==2.1.1
+

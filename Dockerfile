@@ -19,7 +19,7 @@ SHELL ["conda", "run", "-n", "bgremover-env", "/bin/bash", "-c"]
 RUN conda install 'ffmpeg>=4.4.0' -c conda-forge && \
     conda install pytorch torchvision torchaudio cpuonly -c pytorch && \
     pip install 'llvmlite==0.32.1' 'more_itertools==8.7.0' 'numba==0.47.0' 'Pillow==8.1.1' 'urllib3==1.26.6' && \
-    pip install Flask==2.3.3 backgroundremover==0.1.9 waitress==2.1.2 && \
+    pip install Flask==2.3.3 backgroundremover==0.1.9 && \
     pip install --no-cache-dir .
 
 # Final stage: Use a minimal Debian image for the runtime environment
@@ -37,8 +37,11 @@ COPY requirements.txt /app
 # Install dependencies
 RUN pip install -r requirements.txt
 
+# Set the working directory
+WORKDIR /app
+
 # Expose port 5000 for the API
 EXPOSE 5000
 
-# Set the entry point to run the Flask application with Waitress
-CMD ["waitress-serve", "--host=0.0.0.0", "--port=5000", "app:app"]
+# Set the entry point to run the Flask application
+CMD ["python", "app.py"]
