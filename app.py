@@ -1,6 +1,7 @@
+import os
 from flask import Flask, request, jsonify, send_file
 import io
-from backgroundremover import remove_background  # Adjust this import as necessary
+from backgroundremover.remove_background import remove_background  # Adjust this import as necessary
 from waitress import serve
 from flask_cors import CORS
 
@@ -29,4 +30,5 @@ def remove_background_from_image():
 
 if __name__ == '__main__':
     # Use Waitress to serve the app
-    serve(app, host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 10000))
+    serve(app, host='0.0.0.0', port=port)
