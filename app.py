@@ -15,24 +15,19 @@ def remove_background_from_image():
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
     
-    # Create a temporary file for the uploaded image
     with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as input_file:
         input_file.write(file.read())
         input_file_path = input_file.name
     
-    # Create a temporary file for the output image
     with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as output_file:
         output_file_path = output_file.name
     
-    # Run the backgroundremover CLI command
     try:
-        result = subprocess.run(['backgroundremover', '--input', input_file_path, '--output', output_file_path], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        result = subprocess.run(['backgroundremover', '-i', input_file_path, '-o', output_file_path], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
-        # Read the resulting image file
         with open(output_file_path, 'rb') as f:
             result_image = f.read()
         
-        # Return the resulting image
         result_image_io = io.BytesIO(result_image)
         result_image_io.seek(0)
         return send_file(result_image_io, mimetype='image/png', as_attachment=True, download_name='output.png')
@@ -41,7 +36,6 @@ def remove_background_from_image():
         return jsonify({'error': f'Command failed with error: {e.stderr.decode() if e.stderr else "Unknown error"}'}), 500
     
     finally:
-        # Clean up temporary files
         os.remove(input_file_path)
         os.remove(output_file_path)
 
