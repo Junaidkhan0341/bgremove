@@ -55,23 +55,4 @@ def remove_background_from_image():
             os.remove(output_file_path)
 
 if __name__ == '__main__':
-    from gunicorn.app.base import BaseApplication
-    class GunicornApp(BaseApplication):
-        def __init__(self, app):
-            self.app = app
-            super().__init__()
-
-        def load_config(self):
-            config = {
-                'bind': '0.0.0.0:5000',
-                'workers': 4,
-                'timeout': 120,
-                'loglevel': 'info'
-            }
-            for key, value in config.items():
-                self.cfg.set(key, value)
-
-        def load(self):
-            return self.app
-
-    GunicornApp(app).run()
+    app.run(debug=True, host='0.0.0.0', port=5000)
